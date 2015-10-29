@@ -2,11 +2,14 @@
 
 var ignoreError = false;
 
-function Idle() {
+function Idle(tm) {
     var self = this;
 
     this.promise = new Promise(function(resolve) {
-        self.end = resolve;
+        self.end = function(v) {
+            resolve(v);
+            tm.free();
+        };
     });
 };
 
@@ -17,7 +20,7 @@ function TimeManager(duration) {
 };
 
 TimeManager.prototype.talloc = function() {
-    var idle = new Idle();
+    var idle = new Idle(this);
 
     this.timer = setTimeout(idle.end.bind(idle), this.duration);
 
