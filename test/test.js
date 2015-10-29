@@ -49,7 +49,7 @@ describe('requestIdle tests', function() {
 
         requestIdle(10, function() {
             try {
-                expect(Date.now() - last).to.be.above(500);
+                expect(Date.now() - last).to.be.at.least(500);
             } catch(e) {
                 return done(new Error('second task invoked early: ' + e));
             }
@@ -71,7 +71,7 @@ describe('requestIdle tests', function() {
 
         requestIdle(10, function() {
             try {
-                expect(Date.now() - last).to.be.above(500);
+                expect(Date.now() - last).to.be.at.least(500);
             } catch(e) {
                 return done(new Error('second task invoked early: ' + e));
             }
@@ -95,8 +95,8 @@ describe('requestIdle tests', function() {
             var now = Date.now();
 
             try {
-                expect(now - last).to.be.above(200);
-                expect(now - last).to.be.below(500);
+                expect(now - last).to.be.at.least(200);
+                expect(now - last).to.be.at.most(500);
             } catch(e) {
                 return done(new Error('second task invoked on wrong time: ' + e));
             }
