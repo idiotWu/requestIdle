@@ -1,0 +1,27 @@
+{
+  "name": "request-idle",
+  "version": "0.1.0",
+  "description": "Allocate time for your task! ",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idiotWu/requestIdle.git"
+  },
+  "keywords": [
+    "idle",
+    "promise"
+  ],
+  "author": "Dolphin Wood <dolphin.w.e@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/idiotWu/requestIdle/issues"
+  },
+  "homepage": "https://github.com/idiotWu/requestIdle#readme",
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3"
+  }
+}

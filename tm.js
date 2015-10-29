@@ -1,3 +1,7 @@
+'use strict';
+
+var ignoreError = false;
+
 function Idle() {
     var self = this;
 
@@ -25,8 +29,15 @@ TimeManager.prototype.free = function() {
 };
 
 TimeManager.prototype.errorHandler = function(err) {
-    console.error(err);
     this.free();
+
+    if (!ignoreError) {
+        console.error(err);
+    }
+};
+
+TimeManager.ignoreError = function() {
+    ignoreError = true;
 };
 
 module.exports = TimeManager;

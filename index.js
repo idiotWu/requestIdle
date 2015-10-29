@@ -1,3 +1,5 @@
+'use strict';
+
 var TimeManager = require('./tm');
 
 var lastTask = Promise.resolve();
@@ -26,6 +28,10 @@ function requestIdle() {
     lastTask = currentTask;
 
     return currentTask;
+};
+
+requestIdle.ignoreError = function() {
+    return TimeManager.ignoreError();
 };
 
 module.exports = requestIdle;
