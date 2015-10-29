@@ -1,6 +1,6 @@
 ## requestIdle [![Build Status](https://travis-ci.org/idiotWu/requestIdle.svg?branch=master)](https://travis-ci.org/idiotWu/requestIdle)
 
-[![NPM](https://nodei.co/npm/requestIdle.png)](https://nodei.co/npm/requestIdle)
+[![NPM](https://nodei.co/npm/request-idle.png)](https://nodei.co/npm/request-idle)
 
 **WARNING: this is not a polyfill for `requestIdleCallback`, if you are looking for such thing, try [this one](https://github.com/PixelsCommander/requestIdleCallback-polyfill).**
 
@@ -9,7 +9,7 @@ Allocate time for you task to run!
 ### Install
 
 ```
-npm install requestIdle --save
+npm install request-idle --save
 ```
 
 ### Usage
