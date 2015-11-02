@@ -1,8 +1,10 @@
 'use strict';
 
-var TimeManager = require('./tm');
+var TimeManager = require('./lib/tm');
 
 var lastTask = Promise.resolve();
+
+var debug = true;
 
 function requestIdle() {
     var duration, task;
@@ -14,24 +16,20 @@ function requestIdle() {
         task = arguments[1];
     }
 
-    var tm = new TimeManager(duration);
+    var tm = new TimeManager(debug);
 
-    var currentTask = lastTask.then(function() {
-            var idle = tm.talloc();
+    lastTask = lastTask.then(function() {
+            var idle = tm.talloc(duration);
 
             if (typeof task === 'function') task(idle);
 
             return idle.promise;
         })
         .catch(tm.errorHandler.bind(tm));
-
-    lastTask = currentTask;
-
-    return currentTask;
 };
 
 requestIdle.ignoreError = function() {
-    return TimeManager.ignoreError();
+    debug = false;
 };
 
 module.exports = requestIdle;

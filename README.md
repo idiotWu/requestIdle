@@ -57,6 +57,18 @@ requesetIdle(function(idle) {
 });
 ```
 
+### idle#end()
+
+Release current idle.
+
+### idle#add(Number:ms)
+
+Extend current idle duration.
+
+### idle#remain
+
+Get current idle time remaining.
+
 ## License
 
 MIT.

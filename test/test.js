@@ -47,14 +47,17 @@ describe('requestIdle tests', function() {
             last = Date.now();
         });
 
-        requestIdle(10, function() {
+        requestIdle(10, function(idle) {
+            var result;
+
             try {
                 expect(Date.now() - last).to.be.at.least(500);
             } catch(e) {
-                return done(new Error('second task invoked early: ' + e));
+                result = new Error('second task invoked early: ' + e);
+            } finally {
+                idle.end();
+                done(result);
             }
-
-            done();
         });
     });
 
@@ -69,14 +72,17 @@ describe('requestIdle tests', function() {
             }, 500);
         });
 
-        requestIdle(10, function() {
+        requestIdle(10, function(idle) {
+            var result;
+
             try {
                 expect(Date.now() - last).to.be.at.least(500);
             } catch(e) {
-                return done(new Error('second task invoked early: ' + e));
+                result = new Error('second task invoked early: ' + e);
+            } finally {
+                idle.end();
+                done(result);
             }
-
-            done();
         });
     });
 
@@ -91,17 +97,57 @@ describe('requestIdle tests', function() {
             }, 200);
         });
 
-        requestIdle(10, function() {
+        requestIdle(10, function(idle) {
             var now = Date.now();
+            var result;
 
             try {
                 expect(now - last).to.be.at.least(200);
                 expect(now - last).to.be.at.most(500);
             } catch(e) {
-                return done(new Error('second task invoked on wrong time: ' + e));
+                result = new Error('second task invoked on wrong time: ' + e);
+            } finally {
+                idle.end();
+                done(result);
+            }
+        });
+    });
+
+    it('`idle.remain` should return correct remaining', function(done) {
+        requestIdle(1000, function(idle) {
+            setTimeout(function() {
+                var result;
+
+                try {
+                    expect(idle.remain).to.be.within(790, 810);
+                } catch(e) {
+                    result = e;
+                } finally {
+                    idle.end();
+                    done(result);
+                }
+            }, 200);
+        });
+    });
+
+    it('idle should be increased by 200ms', function(done) {
+        var last = Date.now();
+
+        requestIdle(0, function(idle) {
+            idle.add(200);
+        });
+
+        requestIdle(function(idle) {
+            var result;
+
+            try {
+                expect(Date.now() - last).to.at.least(200);
+            } catch(e) {
+                result = e;
             }
 
-            done();
+            idle.end();
+            done(result);
         });
     });
 
