@@ -1,6 +1,6 @@
 {
   "name": "request-idle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Allocate time for your task! ",
   "main": "index.js",
   "scripts": {
