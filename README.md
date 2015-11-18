@@ -57,6 +57,10 @@ requesetIdle(function(idle) {
 });
 ```
 
+### requestIdle.release(Boolean:discard)
+
+Release all pending idles, set `discard` to `true` will discard all pending tasks!
+
 ### idle#end()
 
 Release current idle.
