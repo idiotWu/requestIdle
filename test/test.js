@@ -179,4 +179,26 @@ describe('requestIdle tests', function() {
             done(result);
         });
     });
+
+    it('all tasks should be released', function(done) {
+        var last = Date.now();
+
+        requestIdle(1000);
+        requestIdle(1000);
+        requestIdle(1000);
+        requestIdle(1000);
+
+        requestIdle.release();
+        requestIdle(10, function() {
+            var result;
+
+            try {
+                expect(Date.now() - last).to.be.below(1000);
+            } catch(e) {
+                result = e;
+            }
+
+            done(result);
+        });
+    });
 });
