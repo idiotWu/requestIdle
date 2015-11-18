@@ -2,7 +2,7 @@
 
 var TimeManager = require('./lib/tm');
 
-var lastTask = Promise.resolve();
+var currentTask = Promise.resolve();
 
 var debug = true;
 
@@ -17,11 +17,11 @@ function requestIdle() {
     }
 
     var tm = new TimeManager(debug);
-    var currentTask = lastTask;
+    var lastTask = currentTask;
     var isReleased = false;
     var discardTask = false;
 
-    lastTask = currentTask.then(function() {
+    currentTask = lastTask.then(function() {
             task = typeof task === 'function' && task;
 
             var idle = tm.talloc(duration);
@@ -37,11 +37,11 @@ function requestIdle() {
         })
         .catch(tm.errorHandler.bind(tm));
 
-    lastTask.end = function(discard) {
+    currentTask.end = function(discard) {
         isReleased = true;
         discardTask = discard;
 
-        if (currentTask.end) currentTask.end(discard);
+        if (lastTask.end) lastTask.end(discard);
 
         tm.free();
     };
@@ -52,7 +52,7 @@ requestIdle.ignoreError = function() {
 };
 
 requestIdle.release = function(discard) {
-    lastTask.end(discard);
+    currentTask.end(discard);
 };
 
 module.exports = requestIdle;
