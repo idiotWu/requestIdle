@@ -201,4 +201,38 @@ describe('requestIdle tests', function() {
             done(result);
         });
     });
+
+    it('task should be discarded', function(done) {
+        requestIdle(1000, function() {
+            done(new Error('task runned'));
+        });
+
+        requestIdle.release(true);
+
+        requestIdle(0, function() {
+            done();
+        });
+    });
+
+    it('task should be preserved', function(done) {
+        var count = 0;
+
+        requestIdle(1000, function() {
+            count++;
+        });
+
+        requestIdle.release();
+
+        requestIdle(0, function() {
+            var result;
+
+            try {
+                expect(count).to.be.equal(1);
+            } catch (e) {
+                result = e;
+            }
+
+            done(result);
+        });
+    });
 });
