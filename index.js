@@ -17,8 +17,12 @@ function requestIdle() {
     }
 
     var tm = new TimeManager(debug);
+    var currentTask = lastTask;
+    var isReleased = false;
 
-    lastTask = lastTask.then(function() {
+    lastTask = currentTask.then(function() {
+            if (isReleased) return;
+
             var idle = tm.talloc(duration);
 
             if (typeof task === 'function') task(idle);
@@ -26,10 +30,22 @@ function requestIdle() {
             return idle.promise;
         })
         .catch(tm.errorHandler.bind(tm));
+
+    lastTask.free = function() {
+        if (currentTask.free) currentTask.free();
+
+        tm.free();
+
+        isReleased = true;
+    };
 };
 
 requestIdle.ignoreError = function() {
     debug = false;
+};
+
+requestIdle.release = function() {
+    lastTask.free();
 };
 
 module.exports = requestIdle;
